@@ -10,18 +10,18 @@
 
 
     <div class="container mt-5">
-    <h1 class="mb-4">Login</h1>
-    <form @submit.prevent="loginUser" class="row g-3">
+    <h1 class="mb-4">Admin Registration</h1>
+    <form @submit.prevent="registerAdmin" class="row g-3">
       <div class="col-md-6">
         <label for="username" class="form-label">Email</label>
-        <input type="text" class="form-control" v-model="username" placeholder="Enter your email" required>
+        <input type="text" class="form-control" v-model="email" placeholder="Enter your email" required>
       </div>
       <div class="col-md-6">
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" v-model="password" placeholder="Enter your password" required>
       </div>
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">Register</button>
       </div>
     </form>
     </div>
@@ -30,67 +30,60 @@
   
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import axios from 'axios';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'vue-router';
-//import { isLoggedIn } from './AppNavbar.vue';
 
 export default defineComponent({
-  name: 'UserLogin',
+  name: 'UserRegistration',
   setup() {
     const router = useRouter();
-    const username = ref('');
+
+    const email = ref('');
     const password = ref('');
 
-    const loginUser = async () => {
+    const registerAdmin = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/api/login', {
-          username: username.value, // Use 'username' field to match your backend expectation
+        const response = await axios.post('http://localhost:3000/api/registeradmin', {
+          email: email.value,
           password: password.value,
         });
 
-        // Handle successful login
-        console.log('Login successful:', response.data);
-
-        // Save the token to local storage
-        localStorage.setItem('token', response.data.access_token);
-
-       // isLoggedIn.value = true;
-
-        // Redirect to the home page or another route on successful login
+        // Handle successful registration
+        console.log('User registered:', response.data);
+        // Redirect to another page or perform other actions as needed
         if (response.status === 200 || response.data.message === 'User registered successfully!') {
           // Redirect to the home page or another route on successful registration
-          router.push('/');
+          router.push('/admin');
         } else {
           // Handle unexpected response data here if needed
           console.error('Unexpected response:', response);
         }
-      } catch (error) {
+      } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
-            const axiosError = error as AxiosError;
+          const axiosError = error as AxiosError;
 
-            // Handle Axios errors (response received)
-            if (axiosError.response) {
-            console.error('Login failed:', axiosError.response.data);
+          if (axiosError.response) {
+            // Error response received
+            console.error('Registration failed:', axiosError.response.data);
             console.error('Status code:', axiosError.response.status);
-            } else if (axiosError.request) {
-            // Handle request made but no response received
+          } else if (axiosError.request) {
+            // Request made but no response received
             console.error('No response received:', axiosError.request);
-            } else {
-            // Handle other Axios errors
+          } else {
+            // Something went wrong while setting up the request
             console.error('Error:', axiosError.message);
-            }
+          }
         } else {
-            // Handle non-Axios errors
-            console.error('Non-Axios error occurred:', error);
+          // Non-Axios error
+          console.error('Non-Axios error occurred:', error);
         }
-        }
+      }
     };
 
     return {
-      username,
+      email,
       password,
-      loginUser,
+      registerAdmin,
     };
   },
 });

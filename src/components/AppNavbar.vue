@@ -17,8 +17,9 @@
             <ul class="nav-routes menu">
               <li><RouterLink to="/">Home</RouterLink></li>
               <li><RouterLink to="/duties">Duties</RouterLink></li>
-              <li><RouterLink to="/login">Login</RouterLink></li>
-              <li><RouterLink to="/register">Register</RouterLink></li>
+              <li v-if="!isLoggedIn"><RouterLink to="/login">Login</RouterLink></li>
+              <li v-if="!isLoggedIn"><RouterLink to="/register">Register</RouterLink></li>
+              <li v-if="isLoggedIn" @click="logout"><RouterLink to="/">Logout</RouterLink></li>
             </ul>
         <!-- </nav> -->
         <!-- </section> -->
@@ -27,13 +28,43 @@
   
 <script>
 import { RouterLink } from 'vue-router';
+import { ref, onMounted, watch, defineComponent } from 'vue';
+//import { auth, setAuth } from '@/utils/auth.ts';
+
+// Define auth state using ref
+// const isLoggedIn = ref(false);
+
+// const logout = () => {
+//   localStorage.removeItem('token'); // Remove token from localStorage
+//   isLoggedIn.value = false; // Update the local state
+// };
+
+//const isLoggedIn = ref(false);
 
 export default {
     name: 'AppNavbar',
     components: {
       RouterLink
-    }
+    },
+    setup() {
+      const isLoggedIn = ref(false);
+      const token = localStorage.getItem('token');
+      if (token) {
+        isLoggedIn.value = true;
+      }
+
+      const logout = () => {
+        localStorage.removeItem('token'); // Remove token from localStorage
+        isLoggedIn.value = false; // Update the local state
+      };
+
+      return {
+        isLoggedIn,
+        logout,
+      };
+  }
 };
+
 
 </script>
   

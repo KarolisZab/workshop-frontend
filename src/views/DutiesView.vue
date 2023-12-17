@@ -1,16 +1,13 @@
 <template>
     <div>
       <div class="container"> <!-- Assuming you have a container for your content -->
-        <WorkerList /> <!-- Include your WorkshopList component here -->
+        <DutiesList /> <!-- Include your WorkshopList component here -->
       </div>
       <div class="button-container">
-        <RouterLink :to="`/workshop/${$route.params.id}/workers/create`">
-          <button class="button">Create new worker</button>
+        <RouterLink :to="`/workshop/${$route.params.id}/workers/${$route.params.workerId}/duties/create`">
+          <button class="button">Create a new duty</button>
         </RouterLink>
       </div>
-      <!-- <RouterLink :to="`/workshop/${$route.params.id}/workers/create`">
-          <button class="button">Create new worker</button>
-      </RouterLink> -->
     </div>
 </template>
   
@@ -18,14 +15,14 @@
   import { defineComponent } from 'vue';
   //import AppNavbar from '../components/AppNavbar.vue';
   //import AppFooter from '../components/AppFooter.vue';
-  import WorkerList from '@/components/WorkerList.vue'; // Import your WorkshopList component
+  import DutiesList from '@/components/DutiesList.vue'; // Import your WorkshopList component
   
   export default defineComponent({
-    name: 'WorkerView',
+    name: 'DutiesView',
     components: {
       //AppNavbar,
       //AppFooter,
-      WorkerList, // Register the WorkshopList component
+      DutiesList, // Register the WorkshopList component
     },
   });
 </script>

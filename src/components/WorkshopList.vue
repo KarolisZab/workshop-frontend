@@ -22,12 +22,11 @@ import { defineComponent, ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-// Define Workshop interface
+
 interface Workshop {
   id: string;
   title: string;
   category: string;
-  // Add more properties based on your workshop object structure
 }
 
 export default defineComponent({

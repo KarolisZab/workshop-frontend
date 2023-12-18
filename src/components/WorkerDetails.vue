@@ -43,7 +43,6 @@
     id: string;
     name: string;
     surname: string;
-    // Add other properties as needed
   }
   
   export default defineComponent({
@@ -61,7 +60,6 @@
             const token = localStorage.token;
             if (!token) {
                 console.error('Access token not found. Please login.');
-                // Handle token absence, e.g., redirect to login page
                 return;
             }
     
@@ -160,8 +158,8 @@
 
 .button {
   display: block;
-  width: 200px; /* Set the desired width */
-  margin-bottom: 10px; /* Add some space between buttons */
+  width: 200px;
+  margin-bottom: 10px; 
   padding: 10px 20px;
   background-color: #fff;
   color: #000;

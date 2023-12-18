@@ -16,7 +16,6 @@
             </label>
             <ul class="nav-routes menu">
               <li><RouterLink to="/">Home</RouterLink></li>
-              <li><RouterLink to="/duties">Duties</RouterLink></li>
               <li v-if="!isLoggedIn"><RouterLink to="/login">Login</RouterLink></li>
               <li v-if="!isLoggedIn"><RouterLink to="/register">Register</RouterLink></li>
               <li v-if="isLoggedIn" @click="logout"><RouterLink to="/">Logout</RouterLink></li>
@@ -64,13 +63,9 @@ export default {
       };
   }
 };
-
-
 </script>
   
-<!-- Add Bootstrap styles -->
 <style lang="scss" scoped>
-/* Import Bootstrap styles */
 @import "~bootstrap/scss/bootstrap";
 
 header {
@@ -84,7 +79,6 @@ header {
   justify-content: space-between;
   background-color: #00BAF0;
   background: linear-gradient(to left, #f46b45, #eea849);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: #FFF;
   height: 50px;
   padding: 1em;
@@ -189,7 +183,7 @@ nav {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    padding-right: 0px; /* Adds space to the right for menu icon */
+    padding-right: 0px; 
   }
   
   .menu {
@@ -197,7 +191,7 @@ nav {
     //top: 50px;
     top: 0;
     margin-top: 50px; // new
-    //right: 0; /* Adjusts the position to the right */
+    //right: 0; 
     left: 0; // new
     background-color: #333;
     width: 100%;
@@ -207,10 +201,10 @@ nav {
     align-items: center; // new
     //padding: 0;
     //margin: 0;
-    display: none; /* Hides the menu initially */
+    display: none; 
   }
   #menu-toggle:checked ~ .menu {
-    display: flex; /* Shows the menu when the checkbox is checked */
+    display: flex; 
     flex-direction: column;
   }
   .menu > li {

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <DutyCreate /> <!-- Render the DutyCreate component here -->
+    <DutyCreate /> 
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import DutyCreate from '@/components/DutyCreate.vue'; // Replace with correct path
+import DutyCreate from '@/components/DutyCreate.vue'; 
 
 export default defineComponent({
   name: 'DutyCreateView',

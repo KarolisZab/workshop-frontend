@@ -1,12 +1,12 @@
 <template>
     <div>
-      <DutyEdit /> <!-- Render the DutyCreate component here -->
+      <DutyEdit /> 
     </div>
   </template>
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import DutyEdit from '@/components/DutyEdit.vue'; // Replace with correct path
+  import DutyEdit from '@/components/DutyEdit.vue'; 
   
   export default defineComponent({
     name: 'DutyEditView',
@@ -17,7 +17,6 @@
   </script>
 
 <style scoped>
-/* Add your component-specific styles here */
 .container {
   max-width: 1100px;
   margin: 0 auto;

@@ -41,6 +41,17 @@ export default defineComponent({
     const email = ref('');
     const password = ref('');
 
+    axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
     const registerAdmin = async () => {
       try {
         const response = await axios.post('http://localhost:3000/api/registeradmin', {
@@ -48,14 +59,11 @@ export default defineComponent({
           password: password.value,
         });
 
-        // Handle successful registration
         console.log('User registered:', response.data);
-        // Redirect to another page or perform other actions as needed
+
         if (response.status === 200 || response.data.message === 'User registered successfully!') {
-          // Redirect to the home page or another route on successful registration
           router.push('/admin');
         } else {
-          // Handle unexpected response data here if needed
           console.error('Unexpected response:', response);
         }
       } catch (error: unknown) {
@@ -63,18 +71,14 @@ export default defineComponent({
           const axiosError = error as AxiosError;
 
           if (axiosError.response) {
-            // Error response received
             console.error('Registration failed:', axiosError.response.data);
             console.error('Status code:', axiosError.response.status);
           } else if (axiosError.request) {
-            // Request made but no response received
             console.error('No response received:', axiosError.request);
           } else {
-            // Something went wrong while setting up the request
             console.error('Error:', axiosError.message);
           }
         } else {
-          // Non-Axios error
           console.error('Non-Axios error occurred:', error);
         }
       }

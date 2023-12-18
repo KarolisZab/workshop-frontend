@@ -36,7 +36,6 @@
     id: string;
     duty: string;
     description: string;
-    // Add other properties of the duty if needed
   }
   
   export default defineComponent({
@@ -51,17 +50,27 @@
       const duty = ref<Duty | null>(null);
       const token = localStorage.token;
       const showModal = ref(false);
+
+      axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
   
       const fetchDutyDetails = async () => {
-        const workshopId = route.params.id as string; // Get workshop ID from the route parameter
-        const workerId = route.params.workerId as string; // Get worker ID from the route parameter
-        dutyId.value = route.params.dutyId as string; // Get duty ID from the route parameter
+        const workshopId = route.params.id as string; 
+        const workerId = route.params.workerId as string; 
+        dutyId.value = route.params.dutyId as string; 
   
         try {
           const token = localStorage.token;
           if (!token) {
             console.error('Access token not found. Please login.');
-            // Handle token absence, e.g., redirect to login page
             return;
           }
   
@@ -70,7 +79,7 @@
           };
   
           const response = await axios.get(`http://localhost:3000/api/workshop/${workshopId}/workers/${workerId}/duties/${dutyId.value}`, { headers });
-          duty.value = response.data; // Assign duty details to the data property
+          duty.value = response.data; 
         } catch (error) {
           console.error('Error fetching duty details:', error);
         }
@@ -99,7 +108,7 @@
             headers,
           });
           console.log('Duty deleted successfully.');
-          router.push(`/workshop/${route.params.id}/workers/${route.params.workerId}/duties`); // Redirect to duties list or any desired route
+          router.push(`/workshop/${route.params.id}/workers/${route.params.workerId}/duties`);
         } catch (error) {
           console.error('Error deleting duty:', error);
         }

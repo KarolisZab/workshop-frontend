@@ -7,8 +7,15 @@
           <input type="text" class="form-control" v-model="title" placeholder="Enter workshop title" required>
         </div>
         <div class="col-md-6">
+          <!-- <label for="category" class="form-label">Category</label>
+          <input type="text" class="form-control" v-model="category" placeholder="Enter workshop category" required> -->
           <label for="category" class="form-label">Category</label>
-          <input type="text" class="form-control" v-model="category" placeholder="Enter workshop category" required>
+          <select class="form-control" v-model="category" required>
+            <option value="" disabled>Select workshop category</option>
+            <option value="Garage workshop">Garage workshop</option>
+            <option value="Tool workshop">Tool workshop</option>
+            <option value="Art workshop">Art workshop</option>
+          </select>
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Create Workshop</button>
@@ -27,7 +34,6 @@ interface Workshop {
     id: string;
     title: string;
     category: string;
-    // Add more properties based on your workshop object structure
 }
 
 export default defineComponent({
@@ -36,7 +42,18 @@ export default defineComponent({
       const router = useRouter();
       const title = ref('');
       const category = ref('');
-  
+      
+      axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
       const createWorkshop = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -60,34 +77,27 @@ export default defineComponent({
             headers,
           });
   
-          // Handle successful creation
           console.log('Workshop created:', response.data);
   
-          // Redirect to the dashboard or another route on successful creation
           if (response.status === 201) {
-            // Redirect to the admin dashboard or another route on successful creation
             router.push('/');
           } else {
-            // Handle unexpected response data here if needed
             console.error('Unexpected response:', response);
+            //router.push('/');
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {
             const axiosError = error as AxiosError;
   
-            // Handle Axios errors (response received)
             if (axiosError.response) {
               console.error('Workshop creation failed:', axiosError.response.data);
               console.error('Status code:', axiosError.response.status);
             } else if (axiosError.request) {
-              // Handle request made but no response received
               console.error('No response received:', axiosError.request);
             } else {
-              // Handle other Axios errors
               console.error('Error:', axiosError.message);
             }
           } else {
-            // Handle non-Axios errors
             console.error('Non-Axios error occurred:', error);
           }
         }

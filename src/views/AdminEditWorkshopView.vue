@@ -1,7 +1,7 @@
 <template>
     <div>
-      <div class="container"> <!-- Assuming you have a container for your content -->
-        <EditWorkshop /> <!-- Include your WorkshopList component here -->
+      <div class="container"> 
+        <EditWorkshop /> 
       </div>
     </div>
 </template>
@@ -10,20 +10,19 @@
   import { defineComponent } from 'vue';
   //import AppNavbar from '../components/AppNavbar.vue';
   //import AppFooter from '../components/AppFooter.vue';
-  import EditWorkshop from '../components/AdminEditWorkshop.vue'; // Import your WorkshopList component
+  import EditWorkshop from '../components/AdminEditWorkshop.vue'; 
   
   export default defineComponent({
     name: 'EditView',
     components: {
       //AppNavbar,
       //AppFooter,
-      EditWorkshop, // Register the WorkshopList component
+      EditWorkshop, 
     },
   });
 </script>
   
 <style scoped>
-  /* Add your component-specific styles here */
 .container {
     max-width: 1100px;
     margin: 0 auto;

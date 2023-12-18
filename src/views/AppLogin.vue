@@ -6,7 +6,7 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import UserLogin from '@/components/UserLogin.vue'; // Replace with correct path
+  import UserLogin from '@/components/UserLogin.vue'; 
   
   export default defineComponent({
     name: 'AppRegistration',

@@ -18,75 +18,6 @@
       </div>
     </div>
 </template>
-  
-<!-- <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import axios from 'axios';
-import { useRouter, useRoute } from 'vue-router';
-  
-interface Duty {
-    id: string;
-    duty: string;
-    description: string;
-    // Add other properties as needed
-}
-  
-export default defineComponent({
-    name: 'DutyDetails',
-    setup() {
-      const route = useRoute();
-      const router = useRouter();
-      const dutyId = ref<string | null>(null);
-      const duty = ref<Duty | null>(null);
-  
-      const fetchDutyDetails = async () => {
-        dutyId.value = route.params.dutyId as string;
-  
-        try {
-          const token = localStorage.token;
-          if (!token) {
-            console.error('Access token not found. Please login.');
-            // Handle token absence, e.g., redirect to login page
-            return;
-          }
-  
-          const headers = {
-            Authorization: `Bearer ${token}`,
-            'Context-Type': 'application/json',
-          };
-  
-          const response = await axios.get(`http://localhost:3000/api/workshop/${route.params.id}/workers/${route.params.workerId}/duties/${dutyId.value}`, { headers });
-          duty.value = response.data;
-        } catch (error) {
-          console.error('Error fetching duty details', error);
-        }
-      };
-  
-      onMounted(fetchDutyDetails);
-  
-      const redirectToEditForm = () => {
-        if (duty.value) {
-          const editDutyRoute = `/workshop/${route.params.id}/workers/${route.params.workerId}/duties/${duty.value.id}/edit`;
-          router.push(editDutyRoute);
-        }
-      };
-  
-      const redirectDeleteConfirm = () => {
-        if (duty.value) {
-          const deleteDutyRoute = `/workshop/${route.params.id}/workers/${route.params.workerId}/duties/${duty.value.id}/delete`;
-          router.push(deleteDutyRoute);
-        }
-      };
-      
-
-      return {
-        duty,
-        redirectToEditForm,
-        redirectDeleteConfirm,
-      };
-    },
-  });
-</script> -->
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
@@ -97,7 +28,6 @@ interface Duty {
   id: string;
   duty: string;
   description: string;
-  // Add other properties as needed
 }
 
 export default defineComponent({
@@ -108,6 +38,17 @@ export default defineComponent({
     const dutyId = ref<string | null>(null);
     const duty = ref<Duty | null>(null);
 
+    axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
     const fetchDutyDetails = async () => {
       dutyId.value = route.params.dutyId as string;
   
@@ -115,7 +56,6 @@ export default defineComponent({
         const token = localStorage.token;
         if (!token) {
           console.error('Access token not found. Please login.');
-          // Handle token absence, e.g., redirect to the login page
           return;
         }
   
@@ -200,7 +140,7 @@ export default defineComponent({
   border-radius: 8px;
   padding: 20px;
   margin-top: 20px;
-  width: 70%; /* Adjust the width as needed */
+  width: 70%; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -216,27 +156,19 @@ export default defineComponent({
 }
 
 h2 {
-  margin: 0; /* Reset margin */
+  margin: 0; 
   font-size: 1.5em;
 }
 
 .description {
   line-height: 1.6;
-  margin-bottom: 20px; /* Space between description and buttons */
+  margin-bottom: 20px; 
 }
 
 .button-container {
   display: flex;
   justify-content: flex-end;
 }
-
-// .button-container {
-//   display: flex;
-//   flex-direction: column; /* Align buttons vertically */
-//   justify-content: center; /* Align buttons vertically in the middle */
-//   align-items: flex-end; /* Align buttons to the right */
-//   height: 100%; /* Occupy full height of the container */
-// }
 
 .edit-button,
 .delete-button,

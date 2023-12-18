@@ -17,7 +17,6 @@ interface Workshop {
     id: string;
     title: string;
     category: string;
-    // Other properties of the workshop
 }
   
 export default defineComponent({
@@ -27,7 +26,18 @@ export default defineComponent({
         const workshopId = ref<string | null>(null);
         const workshop = ref<Workshop | null>(null);
         const token = localStorage.token;
-    
+      
+        axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
         const fetchWorkshopDetails = async () => {
         workshopId.value = router.currentRoute.value.params.id as string;
   
@@ -62,7 +72,7 @@ export default defineComponent({
                     headers,
                 });
                 console.log('Workshop deleted successfully.');
-                router.push('/'); // Redirect to the workshops list or any desired route
+                router.push('/'); 
             } catch (error) {
                 console.error('Error deleting workshop:', error);
             }

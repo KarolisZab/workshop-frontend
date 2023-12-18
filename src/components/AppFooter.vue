@@ -32,18 +32,6 @@ export default {
   position: relative;
  }
 
-
-/* Additional styles for the SVG */
-/* .feather {
-  margin-bottom: 5px;
-  fill: none;
-  stroke: #fff;
-  stroke-width: 2;
-  vertical-align: middle;
-} 
-*/
-
-/* Style for the SVG icon */
 .icon {
   margin-bottom: 5px;
   fill: none;

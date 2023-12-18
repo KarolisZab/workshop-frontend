@@ -27,7 +27,7 @@
     data() {
       return {
         duty: {
-          id: '', // Duty ID will be captured from the route parameter
+          id: '',
           duty: '',
           description: '',
         },
@@ -35,13 +35,12 @@
     },
     methods: {
       async fetchDutyDetails() {
-        const workshopId = this.$route.params.id; // Get workshop ID from the route parameter
-        const dutyId = this.$route.params.dutyId; // Get duty ID from the route parameter
+        const workshopId = this.$route.params.id;
+        const dutyId = this.$route.params.dutyId; 
         try {
           const token = localStorage.token;
           if (!token) {
             console.error('Access token not found. Please login.');
-            // Handle token absence, e.g., redirect to the login page
             return;
           }
   
@@ -51,7 +50,7 @@
           };
   
           const response = await axios.get(`http://localhost:3000/api/workshop/${workshopId}/workers/${this.$route.params.workerId}/duties/${dutyId}`, { headers });
-          this.duty = response.data; // Assign duty details to the data property
+          this.duty = response.data; 
         } catch (error) {
           console.error('Error fetching duty details:', error);
         }
@@ -61,7 +60,6 @@
           const token = localStorage.token;
           if (!token) {
             console.error('Access token not found. Please login.');
-            // Handle token absence, e.g., redirect to the login page
             return;
           }
   
@@ -70,7 +68,7 @@
             'Content-Type': 'application/json',
           };
   
-          const workshopId = this.$route.params.id; // Get workshop ID from the route parameter
+          const workshopId = this.$route.params.id; 
           const dutyId = this.$route.params.dutyId;
   
           const response = await axios.patch(`http://localhost:3000/api/workshop/${workshopId}/workers/${this.$route.params.workerId}/duties/${dutyId}`, this.duty, {
@@ -81,19 +79,22 @@
   
           if (response.status === 200) {
             console.log('Duty updated:', response.data);
-            // Redirect to the duty details or another route on successful update
             this.$router.push(`/workshop/${workshopId}/workers/${this.$route.params.workerId}/duties/${dutyId}`);
           } else {
             console.error('Duty update failed. Unexpected response:', response);
           }
         } catch (error) {
-          console.error('Error updating duty:', error);
-          // Handle errors
+          if (axios.isAxiosError(error) && error.response && error.response.status === 403) {
+              console.error('403 Forbidden - Access Denied');
+              this.$router.push('/');
+          } else {
+              console.error('Error updating duty:', error);
+          }
         }
       },
     },
     mounted() {
-      this.fetchDutyDetails(); // Fetch duty details when the component is mounted
+      this.fetchDutyDetails();
     },
   });
 </script>
@@ -181,7 +182,7 @@ textarea {
 }
 
 .description-field label {
-  order: -1; /* Place label at the top */
+  order: -1; 
 }
 
 </style>

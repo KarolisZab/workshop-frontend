@@ -9,41 +9,64 @@
     <p>{{ workshop?.category }}</p>
     <div class="dashboard">
         <RouterLink :to="`/workshop/${workshop?.id}/workers`" class="button">View workshop workers</RouterLink>
-        <!-- <button class="button" @click="redirectToWorkers">View workshop workers</button> -->
         <button class="button-edit" @click="redirectToEditForm">Edit workshop</button>
+        <!-- <button v-if="userRoles && isAdmin" class="button-edit" @click="redirectToEditForm">Edit workshop</button> -->
         <button class="button-delete" @click="redirectDeleteConfirm">Delete this workshop</button>
     </div>
-  </template>
-  
+</template>
+
 <script lang="ts">
-  import { defineComponent, ref, onMounted } from 'vue';
-  import axios from 'axios';
-  import { RouteLocationNormalizedLoaded, useRoute } from 'vue-router';
-  import { useRouter } from 'vue-router';
-  
-  // Define Workshop interface
-  interface Workshop {
-    id: string;
-    title: string;
-    category: string;
-    // Add more properties based on your workshop object structure
-  }
-  
-  export default defineComponent({
+import { defineComponent, ref, onMounted } from 'vue';
+import axios from 'axios';
+import { RouteLocationNormalizedLoaded, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+//import { decodeToken, /*DecodedToken*/ } from '@/utils/auth';
+//import { useStore } from 'vuex';
+
+interface Workshop {
+  id: string;
+  title: string;
+  category: string;
+}
+
+export default defineComponent({
     name: 'WorkshopDetail',
     setup() {
         const route = useRoute();
         const router = useRouter();
         const workshopId = ref<string | null>(null);
         const workshop = ref<Workshop | null>(null);
-      
-      //   const isAdmin = (): boolean => {
-      // // Decode the JWT token to access user information (role)
-      // // Use the decoded token to determine if the user has admin rights
-      // // You might need to replace 'decodeJWT' with your actual decoding logic
-      //     const decodedToken = decodeJWT(localStorage.getItem('token'));
-      //     return decodedToken?.role === 'ROLE_ADMIN';
-      //   };
+        //const store = useStore();
+        //const userRole = computed(() => store.getters['getUserRole']);
+        //let isAdmin = false;
+        //const userRoles = localStorage.getItem('userRoles');
+        //const isAdmin = userRoles && userRoles.includes('ROLE_ADMIN');
+        //console.log(userRoles);
+        //console.log(isAdmin);
+
+        // const token = localStorage.getItem('token');
+        // const decodedToken = token ? decodeToken(token) : null;
+
+        // if (decodedToken) {
+        //   console.log('Decoded Token:', decodedToken);
+        //   isAdmin = decodedToken.role === 'ROLE_ADMIN';
+        //   console.log('Is Admin:', isAdmin);
+        // } else {
+        //   console.error('Token decoding failed or token not present.');
+        // }
+
+        // axios.interceptors.response.use(
+        //   (response) => {
+        //     return response;
+        //   },
+        //   (error) => {
+        //     if (error.response && error.response.status === 401) {
+        //       console.error('401 Unauthorized - Redirecting to home page');
+        //       router.push('/');
+        //     }
+        //     return Promise.reject(error);
+        //   }
+        // );
 
         const fetchWorkshopDetails = async () => {
             workshopId.value = route.params.id as string;
@@ -84,16 +107,19 @@
             redirectToEditForm,
             redirectDeleteConfirm,
             //redirectToWorkers,
+            //isAdmin,
+            //isAdmin,
+            //userRoles,
         };
-    },
-  });
+  },
+});
 </script>
 
 <style lang="scss" scoped>
 // h1 {
 //   text-align: center;
-//   margin-top: 50px; /* Adjust as needed */
-//   font-size: 2.5rem; /* Adjust the font size */
+//   margin-top: 50px; 
+//   font-size: 2.5rem; 
 // }
 
 .workshop-detail {
@@ -113,7 +139,6 @@ h1 {
 
 p {
     font-size: 1.5rem;
-    //margin: 0;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -152,8 +177,8 @@ p {
 
 .button {
   display: block;
-  width: 200px; /* Set the desired width */
-  margin-bottom: 10px; /* Add some space between buttons */
+  width: 200px; 
+  margin-bottom: 10px; 
   padding: 10px 20px;
   background-color: #fff;
   color: #000;
@@ -173,8 +198,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  //height: 100vh;
-  padding-top: 20px; /* Adjust top padding as needed */
+  padding-top: 20px; 
   text-align: center;
 }
 </style>

@@ -17,7 +17,6 @@ interface Worker {
   id: string;
   name: string;
   surname: string;
-  // Add other properties of the worker if needed
 }
 
 export default defineComponent({
@@ -29,16 +28,26 @@ export default defineComponent({
     const worker = ref<Worker | null>(null);
     const token = localStorage.token;
 
+    axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
     const fetchWorkerDetails = async () => {
-      const workshopId = route.params.id as string; // Get workshop ID from the route parameter
-      const workerIdFromRoute = route.params.workerId as string; // Get worker ID from the route parameter
-      workerId.value = workerIdFromRoute; // Assign workerId
+      const workshopId = route.params.id as string; 
+      const workerIdFromRoute = route.params.workerId as string;
+      workerId.value = workerIdFromRoute;
 
       try {
         const token = localStorage.token;
         if (!token) {
           console.error('Access token not found. Please login.');
-          // Handle token absence, e.g., redirect to login page
           return;
         }
 
@@ -48,7 +57,7 @@ export default defineComponent({
         };
 
         const response = await axios.get(`http://localhost:3000/api/workshop/${workshopId}/workers/${workerId.value}`, { headers });
-        worker.value = response.data; // Assign worker details to the data property
+        worker.value = response.data; 
 
       } catch (error) {
         console.error('Error fetching worker details:', error);
@@ -78,7 +87,7 @@ export default defineComponent({
           headers,
         });
         console.log('Worker deleted successfully.');
-        router.push(`/workshop/${route.params.id}/workers`); // Redirect to the workers list or any desired route
+        router.push(`/workshop/${route.params.id}/workers`);
       } catch (error) {
         console.error('Error deleting worker:', error);
       }

@@ -34,35 +34,35 @@ import axios from 'axios';
 import { AxiosError } from 'axios';
 import { useRouter } from 'vue-router';
 //import { isLoggedIn } from './AppNavbar.vue';
+//import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'UserLogin',
   setup() {
     const router = useRouter();
+    //const store = useStore();
     const username = ref('');
     const password = ref('');
 
     const loginUser = async () => {
       try {
         const response = await axios.post('http://localhost:3000/api/login', {
-          username: username.value, // Use 'username' field to match your backend expectation
+          username: username.value,
           password: password.value,
         });
 
-        // Handle successful login
         console.log('Login successful:', response.data);
 
-        // Save the token to local storage
         localStorage.setItem('token', response.data.access_token);
 
        // isLoggedIn.value = true;
+       //store.dispatch('auth/updateRoles', response.data.roles);
 
-        // Redirect to the home page or another route on successful login
         if (response.status === 200 || response.data.message === 'User registered successfully!') {
-          // Redirect to the home page or another route on successful registration
+          //store.commit('setRoles', response.data.roles);
+          //store.dispatch('auth/updateRoles', response.data.roles);
           router.push('/');
         } else {
-          // Handle unexpected response data here if needed
           console.error('Unexpected response:', response);
         }
       } catch (error) {
@@ -74,14 +74,11 @@ export default defineComponent({
             console.error('Login failed:', axiosError.response.data);
             console.error('Status code:', axiosError.response.status);
             } else if (axiosError.request) {
-            // Handle request made but no response received
             console.error('No response received:', axiosError.request);
             } else {
-            // Handle other Axios errors
             console.error('Error:', axiosError.message);
             }
         } else {
-            // Handle non-Axios errors
             console.error('Non-Axios error occurred:', error);
         }
         }

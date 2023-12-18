@@ -6,7 +6,7 @@
   
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AdminDeleteWorkshop from '@/components/AdminDeleteWorkshop.vue'; // Replace with correct path
+import AdminDeleteWorkshop from '@/components/AdminDeleteWorkshop.vue'; 
   
 export default defineComponent({
     name: 'AppRegistration',

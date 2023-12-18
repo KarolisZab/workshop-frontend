@@ -42,8 +42,8 @@ import EditWorkshop from '@/components/AdminEditWorkshop.vue';
 <style lang="scss" scoped>
 h1 {
   text-align: center;
-  margin-top: 50px; /* Adjust as needed */
-  font-size: 2.5rem; /* Adjust the font size */
+  margin-top: 50px; 
+  font-size: 2.5rem; 
 }
 .dashboard {
   display: flex;
@@ -51,14 +51,14 @@ h1 {
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
-  padding-top: 20px; /* Adjust top padding as needed */
+  padding-top: 20px; 
   text-align: center;
 }
 
 .button {
   display: block;
-  width: 200px; /* Set the desired width */
-  margin-bottom: 10px; /* Add some space between buttons */
+  width: 200px; 
+  margin-bottom: 10px; 
   padding: 10px 20px;
   background-color: #fff;
   color: #000;

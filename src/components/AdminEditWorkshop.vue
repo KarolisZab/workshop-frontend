@@ -30,19 +30,18 @@
     data() {
       return {
         workshop: {
-          id: '', // Workshop ID will be captured from the route parameter
+          id: '', 
           title: '',
           category: '',
-          // Other properties of the workshop
         },
       };
     },
     methods: {
         async fetchWorkshopDetails() {
-            const workshopId = this.$route.params.id; // Get workshop ID from the route parameter
+            const workshopId = this.$route.params.id;
             try {
                 const response = await axios.get(`http://localhost:3000/api/workshop/${workshopId}`);
-                this.workshop = response.data; // Assign workshop details to the data property
+                this.workshop = response.data;
             } catch (error) {
                 console.error('Error fetching workshop details:', error);
             }
@@ -72,20 +71,22 @@
 
                 if (response.status === 200) {
                     console.log('Workshop updated:', response.data);
-                    // Redirect to the dashboard or another route on successful update
                     this.$router.push('/');
                 } else {
                 console.error('Workshop update failed. Unexpected response:', response);
-                // Handle unexpected response
                 }
             } catch (error) {
-                console.error('Error updating workshop:', error);
-                // Handle errors
+              if (axios.isAxiosError(error) && error.response && error.response.status === 403) {
+                  console.error('403 Forbidden - Access Denied');
+                  this.$router.push('/');
+              } else {
+                  console.error('Error updating workshop:', error);
+              }
             }
         },
     },
     mounted() {
-      this.fetchWorkshopDetails(); // Fetch workshop details when the component is mounted
+      this.fetchWorkshopDetails(); 
     },
   });
 </script>
@@ -96,7 +97,6 @@
     margin: 0 auto;
   }
   
-  /* Add your specific styling for the edit form */
   form {
     display: flex;
     flex-direction: column;
@@ -113,8 +113,8 @@
   }
   .button {
   display: block;
-  width: 200px; /* Set the desired width */
-  margin-bottom: 10px; /* Add some space between buttons */
+  width: 200px;
+  margin-bottom: 10px;
   padding: 10px 20px;
   background-color: #fff;
   color: #000;

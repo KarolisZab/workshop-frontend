@@ -35,6 +35,17 @@
       const surname = ref('');
       const email = ref('');
   
+      axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
       const createWorker = async () => {
         try {
           const token = localStorage.token;
@@ -47,7 +58,7 @@
             'Content-Type': 'application/json',
           };
   
-          const workshopId = router.currentRoute.value.params.id; // Get workshop ID from the route parameter
+          const workshopId = router.currentRoute.value.params.id; 
   
           const response = await axios.post(`http://localhost:3000/api/workshop/${workshopId}/workers`, {
             email: email.value,
@@ -60,7 +71,7 @@
           console.log('Worker created:', response.data);
   
           if (response.status === 201) {
-            router.push(`/workshop/${workshopId}/workers`); // Redirect to the workers list or any desired route
+            router.push(`/workshop/${workshopId}/workers`); 
           } else {
             console.error('Unexpected response:', response);
           }

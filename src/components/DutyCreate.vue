@@ -29,7 +29,18 @@ export default defineComponent({
       const router = useRouter();
       const duty = ref('');
       const description = ref('');
-  
+      
+      axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.error('403 Forbidden - Access Denied');
+                    router.push('/');
+                }
+                return Promise.reject(error);
+            }
+        );
+
       const createDuty = async () => {
         try {
           const token = localStorage.token;
@@ -42,7 +53,7 @@ export default defineComponent({
             'Content-Type': 'application/json',
           };
   
-          const { id: workshopId, workerId } = router.currentRoute.value.params; // Get workshop and worker ID from the route parameter
+          const { id: workshopId, workerId } = router.currentRoute.value.params;
   
           const response = await axios.post(`http://localhost:3000/api/workshop/${workshopId}/workers/${workerId}/duties`, {
             duty: duty.value,
@@ -54,7 +65,7 @@ export default defineComponent({
           console.log('Duty created:', response.data);
   
           if (response.status === 201) {
-            router.push(`/workshop/${workshopId}/workers/${workerId}/duties`); // Redirect to duties list or any desired route
+            router.push(`/workshop/${workshopId}/workers/${workerId}/duties`);
           } else {
             console.error('Unexpected response:', response);
           }

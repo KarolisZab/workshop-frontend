@@ -6,7 +6,7 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import AdminRegister from '@/components/AdminRegister.vue'; // Replace with correct path
+  import AdminRegister from '@/components/AdminRegister.vue'; 
   
   export default defineComponent({
     name: 'AppRegistrationAdmin',

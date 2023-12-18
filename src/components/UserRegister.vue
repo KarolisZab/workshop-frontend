@@ -12,6 +12,7 @@
     <div class="container mt-5">
     <h1 class="mb-4">Registration</h1>
     <form @submit.prevent="registerUser" class="row g-3">
+      <p v-if="userExistsError" class="error-text">*User with this email already exists!</p>
       <div class="col-md-6">
         <label for="username" class="form-label">Email</label>
         <input type="text" class="form-control" v-model="email" placeholder="Enter your email" required>
@@ -40,6 +41,7 @@ export default defineComponent({
 
     const email = ref('');
     const password = ref('');
+    const userExistsError = ref(false);
 
     const registerUser = async () => {
       try {
@@ -48,33 +50,30 @@ export default defineComponent({
           password: password.value,
         });
 
-        // Handle successful registration
         console.log('User registered:', response.data);
-        // Redirect to another page or perform other actions as needed
+
         if (response.status === 200 || response.data.message === 'User registered successfully!') {
-          // Redirect to the home page or another route on successful registration
           router.push('/');
         } else {
-          // Handle unexpected response data here if needed
           console.error('Unexpected response:', response);
         }
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
 
-          if (axiosError.response) {
-            // Error response received
+          if (axiosError.response && axiosError.response.status === 409) {
+            userExistsError.value = true;
+            console.error('Registration failed:', axiosError.response.data);
+            console.error('Status code:', axiosError.response.status);
+          } else if (axiosError.response) {
             console.error('Registration failed:', axiosError.response.data);
             console.error('Status code:', axiosError.response.status);
           } else if (axiosError.request) {
-            // Request made but no response received
             console.error('No response received:', axiosError.request);
           } else {
-            // Something went wrong while setting up the request
             console.error('Error:', axiosError.message);
           }
         } else {
-          // Non-Axios error
           console.error('Non-Axios error occurred:', error);
         }
       }
@@ -84,6 +83,7 @@ export default defineComponent({
       email,
       password,
       registerUser,
+      userExistsError,
     };
   },
 });
@@ -162,5 +162,11 @@ body {
 
 .btn-primary:hover {
   background-color: #FFC04A;
+}
+
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 </style>

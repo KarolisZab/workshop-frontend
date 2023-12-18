@@ -1,12 +1,10 @@
 <template>
     <div class="workers-list">
       <h1>{{ workshop?.title }} Workers</h1>
-      <!-- Display workers for the specific workshop -->
       <div class="worker-cards">
         <div v-for="worker in workers" :key="worker.id" class="card" @click="navigateToWorker(worker.id)">
           <p>{{ worker.name }}</p>
           <h2>{{ worker.surname }}</h2>
-          <!-- Add other worker details if needed -->
         </div>
       </div>
     </div>
@@ -18,12 +16,10 @@
   import { useRoute, useRouter } from 'vue-router';
   
 
-  // Define Worker interface
   interface Worker {
     id: string;
     name: string;
     surname: string;
-    // Add other properties as needed
   }
   
   export default defineComponent({
@@ -32,7 +28,7 @@
       const route = useRoute();
       const router = useRouter();
       //const workshopId = ref<string | null>(null);
-      const workshop = ref<any>(null); // Modify Workshop type as needed
+      const workshop = ref<any>(null); 
       const workers = ref<Worker[]>([]);
   
       const fetchWorkshopAndWorkers = async () => {
@@ -40,7 +36,6 @@
           const token = localStorage.token;
           if (!token) {
             console.error('Access token not found. Please login.');
-            // Handle token absence, e.g., redirect to login page
             return;
           }
   
@@ -51,11 +46,10 @@
           //workshopId.value = route.params.id as string;
           const workshopId = route.params.id as string;
   
-        //   // Fetch workshop details
           const workshopResponse = await axios.get(`http://localhost:3000/api/workshop/${workshopId}`);
           workshop.value = workshopResponse.data;
           console.log(workshop.value);
-          // Fetch workers for the workshop
+
           const workersResponse = await axios.get(`http://localhost:3000/api/workshop/${workshop.value.id}/workers`, { headers });
           workers.value = workersResponse.data;
         } catch (error) {

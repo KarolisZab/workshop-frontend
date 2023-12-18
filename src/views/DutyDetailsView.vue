@@ -6,7 +6,7 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import DutyDetails from '@/components/DutyDetails.vue'; // Replace with correct path
+  import DutyDetails from '@/components/DutyDetails.vue';
   
   export default defineComponent({
     name: 'DutyDetailsView',

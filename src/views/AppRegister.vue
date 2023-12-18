@@ -6,7 +6,7 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import UserRegister from '@/components/UserRegister.vue'; // Replace with correct path
+  import UserRegister from '@/components/UserRegister.vue'; 
   
   export default defineComponent({
     name: 'AppRegistration',

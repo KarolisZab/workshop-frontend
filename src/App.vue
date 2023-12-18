@@ -54,13 +54,12 @@ export default defineComponent({
 }
 
 .flex-grow-1 {
-  flex: 1; /* Grow to fill remaining space */
+  flex: 1;
 }
 
 .overflow-auto {
-  overflow-y: auto; /* Enable vertical scrollbar if content overflows */
-  max-height: calc(100vh - 110px); /* Adjust height as needed (minus navbar height) */
-  /* Change '56px' to your actual navbar height */
+  overflow-y: auto; 
+  max-height: calc(100vh - 110px); 
 }
 
 </style>

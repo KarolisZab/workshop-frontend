@@ -6,7 +6,7 @@
   
 <script lang="ts">
 import { defineComponent } from 'vue';
-import WorkerDelete from '@/components/WorkerDelete.vue'; // Replace with correct path
+import WorkerDelete from '@/components/WorkerDelete.vue'; 
   
 export default defineComponent({
     name: 'AppRegistration',

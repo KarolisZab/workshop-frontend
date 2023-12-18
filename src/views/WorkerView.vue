@@ -1,7 +1,7 @@
 <template>
     <div>
-      <div class="container"> <!-- Assuming you have a container for your content -->
-        <WorkerList /> <!-- Include your WorkshopList component here -->
+      <div class="container"> 
+        <WorkerList /> 
       </div>
       <div class="button-container">
         <RouterLink :to="`/workshop/${$route.params.id}/workers/create`">
@@ -18,20 +18,19 @@
   import { defineComponent } from 'vue';
   //import AppNavbar from '../components/AppNavbar.vue';
   //import AppFooter from '../components/AppFooter.vue';
-  import WorkerList from '@/components/WorkerList.vue'; // Import your WorkshopList component
+  import WorkerList from '@/components/WorkerList.vue'; 
   
   export default defineComponent({
     name: 'WorkerView',
     components: {
       //AppNavbar,
       //AppFooter,
-      WorkerList, // Register the WorkshopList component
+      WorkerList, 
     },
   });
 </script>
   
 <style scoped>
-  /* Add your component-specific styles here */
 .container {
     max-width: 1100px;
     margin: 0 auto;
@@ -39,13 +38,13 @@
 }
 .button-container {
   display: flex;
-  justify-content: center; /* Centers the button horizontally */
-  margin-bottom: 20px; /* Adds space between the button and WorkerList */
+  justify-content: center;
+  margin-bottom: 20px; 
 }
 .button {
   display: block;
-  width: 200px; /* Set the desired width */
-  margin-bottom: 10px; /* Add some space between buttons */
+  width: 200px; 
+  margin-bottom: 10px; 
   padding: 10px 20px;
   background-color: #fff;
   color: #000;

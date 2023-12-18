@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DutyDelete /> <!-- Render the DutyCreate component here -->
+    <DutyDelete /> 
   </div>
 </template>
 
